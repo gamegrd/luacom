@@ -1,0 +1,5 @@
+print(os.clock())
+print(os.time())
+os.execute("ping 127.0.0.1")
+print(os.clock())
+print(os.time())

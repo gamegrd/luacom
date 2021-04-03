@@ -1,7 +1,13 @@
 print("hello world!\n");
-require "luacom"
- 
+
+if not luacom then
+    local init, err1, err2 = package.loadlib("luacom.dll","luacom_openlib")
+    print ( init, err1, err2 )
+    init()
+  end
+
 op=luacom.CreateObject("op.opsoft");
+op:SetShowErrorMsg(0)
 print(op:Ver());
 print("\n");
 hwnd=op:FindWindow("EFLaunchUnrealUWindowsClient","")

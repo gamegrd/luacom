@@ -55,7 +55,11 @@ extern "C"
 #define PUT_PREFIX "set"
 
 static bool luacom_runningInprocess(lua_State* L);
-#pragma comment(lib,"lua.lib")
+#ifdef WIN32
+#pragma comment(lib,"x86/lua.lib")
+#else
+#pragma comment(lib,"x64/lua.lib")
+#endif
 
 HINSTANCE g_hInstance;
 CRITICAL_SECTION g_CriticalSection;
@@ -2276,7 +2280,7 @@ LUACOM_API void luacom_open(lua_State *L)
 #ifdef LUA_DEBUGGING
   lua_dofile(L, "luacom5.lua");
 #else
-  luaL_dofile(L, "luacom5.lua");
+  //luaL_dofile(L, "luacom5.lua");
   //#include "luacom5.loh"
 #endif
   if (lua_gettop(L) > top1) lua_error(L); // failed loading
