@@ -55,11 +55,8 @@ extern "C"
 #define PUT_PREFIX "set"
 
 static bool luacom_runningInprocess(lua_State* L);
-#ifdef WIN32
-#pragma comment(lib,"x86/lua.lib")
-#else
-#pragma comment(lib,"x64/lua.lib")
-#endif
+
+ 
 
 HINSTANCE g_hInstance;
 CRITICAL_SECTION g_CriticalSection;

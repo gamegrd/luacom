@@ -30,7 +30,7 @@ enable_language(ASM_MASM)
 set_source_files_properties( SOURCE  ${ASM_FILES}  PROPERTY LANGUAGE ASM_MASM )
 
 
-add_library( ${PROJECT_NAME}  SHARED
+add_library( ${PROJECT_NAME}  STATIC
     ${C_CXX_FILES}
     ${ASM_FILES}
 )

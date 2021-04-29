@@ -8,7 +8,8 @@
 #define LUACOM_AUTHORS   "V. Almendra & R. Cerqueira & F. Mascarenhas"
 
 #ifndef LUACOM_API
-#define LUACOM_API __declspec(dllexport)
+//#define LUACOM_API __declspec(dllexport)
+#define LUACOM_API  extern
 #endif
 
 enum
