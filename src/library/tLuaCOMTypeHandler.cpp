@@ -1362,7 +1362,7 @@ stkIndex tLuaCOMTypeHandler::get_from_array(lua_State* L,
   HRESULT hr = SafeArrayGetElement(safearray, indices, pv);
 
   if(FAILED(hr)) {
-    if (vt != VT_VARIANT) {
+    if (vt == VT_VARIANT) {
       VariantClear(&varg);
     }
     LUACOM_EXCEPTION(INTERNAL_ERROR);
@@ -1370,7 +1370,7 @@ stkIndex tLuaCOMTypeHandler::get_from_array(lua_State* L,
 
   com2lua(L, varg);
 
-  if (vt != VT_VARIANT) {
+  if (vt == VT_VARIANT) {
     VariantClear(&varg);
   }
 
