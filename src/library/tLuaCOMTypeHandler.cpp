@@ -148,6 +148,7 @@ void tLuaCOMTypeHandler::com2lua(lua_State* L, VARIANTARG varg_orig, bool is_var
       safearray2string(L, varg);
     else
       safearray_com2lua(L, varg);
+    VariantClear(&varg);
   }
   else
   {
@@ -1360,10 +1361,18 @@ stkIndex tLuaCOMTypeHandler::get_from_array(lua_State* L,
 
   HRESULT hr = SafeArrayGetElement(safearray, indices, pv);
 
-  if(FAILED(hr))
+  if(FAILED(hr)) {
+    if (vt != VT_VARIANT) {
+      VariantClear(&varg);
+    }
     LUACOM_EXCEPTION(INTERNAL_ERROR);
+  }
 
   com2lua(L, varg);
+
+  if (vt != VT_VARIANT) {
+    VariantClear(&varg);
+  }
 
   return lua_gettop(L);
 }
@@ -1660,7 +1669,13 @@ void tLuaCOMTypeHandler::safearray_com2lua(lua_State* L, VARIANTARG & varg)
       indices[i] = bounds[i].lLbound;
 
     // gets array data type
-    VARTYPE vt = varg.vt & ~VT_ARRAY;
+    VARTYPE vt;
+    HRESULT hr = SafeArrayGetVartype(safearray, &vt);
+    if (FAILED(hr)) {
+      delete[] bounds;
+      delete[] indices;
+      LUACOM_EXCEPTION(INTERNAL_ERROR);
+    }
 
     // holds index to Lua objects
     stkIndex luaval = 0;
